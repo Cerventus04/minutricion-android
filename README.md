@@ -4,9 +4,9 @@ App Android de registro nutricional, nativa en Kotlin y Jetpack Compose. Se
 apunta lo que se come, se escanea el código de barras de un producto y la ficha
 sale de una base local que viaja con la app, antes de consultar nada por red.
 
-| Diario | Progreso |
-|---|---|
-| ![Diario](snapshots/org.ivansola.minutricion_ScreenshotTest_diario.png) | ![Progreso](snapshots/org.ivansola.minutricion_ScreenshotTest_progreso.png) |
+| Diario | Añadir alimento | Ficha del producto | Crear alimento |
+|---|---|---|---|
+| ![Diario](docs/diario.png) | ![Añadir alimento](docs/anadir.png) | ![Ficha del producto](docs/detalle.png) | ![Crear alimento](docs/crear.png) |
 
 ## Qué hace
 

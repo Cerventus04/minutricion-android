@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mi Nutrición</string>
+    <string name="widget_desc">Calorías y macros consumidos hoy</string>
+    <string name="widget_desc_cal">Calorías consumidas hoy</string>
+    <string name="widget_desc_nutr">Proteínas consumidas hoy</string>
+    <string name="widget_desc_quick">Registra alimentos al instante</string>
+    <string name="widget_desc_rest">Calorías que puedes consumir hoy</string>
+    <string name="widget_desc_rreg">Días consecutivos registrados</string>
+    <string name="widget_desc_rperf">Días consecutivos en tu rango</string>
+    <string name="widget_search_hint">Buscar alimentos</string>
+</resources>

@@ -1,0 +1,27 @@
+# Claves y configuración local (contiene la ruta del SDK y la clave de Gemini)
+local.properties
+
+# Build
+build/
+app/build/
+.gradle/
+.kotlin/
+*.apk
+*.aab
+bin/
+build.log
+
+# IDE y herramientas
+.idea/
+.claude/
+.artifacts/
+*.iml
+.DS_Store
+Thumbs.db
+
+# El scraper vive en su propio repositorio
+scraper/
+
+# Python de las utilidades de tools/
+__pycache__/
+*.py[cod]

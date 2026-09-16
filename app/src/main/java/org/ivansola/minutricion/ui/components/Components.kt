@@ -229,47 +229,97 @@ private val DRINK_WORDS = listOf(
     // genéricas / tipos (subcadenas seguras)
     // OJO: "agua" NO va aquí (marcaba "aguacate" como bebida); está en DRINK_TOKENS, que compara
     // la palabra entera.
+    // NO "cortado" suelto: marcaba "jamón cortado" o "queso tierno cortado" como bebida (el café
+    // cortado ya lo recoge "café")
     "leche", "zumo", "jugo", "refresco", "bebida", "batido", "smoothie",
-    "café", "cafe", "cortado", "capuchino", "cappuccino", "latte", "colacao", "cola cao",
+    "café", "cafe", "capuchino", "cappuccino", "latte", "colacao", "cola cao",
     "matcha", "infusión", "infusion", "cerveza", "vino", "sidra",
     "champán", "champan", "licor", "vodka", "ginebra", "whisky", "mojito",
     "gaseosa", "tónica", "tonica", "energética", "energetica", "energético", "energetico",
-    "energy", "isotónic", "isotonic", "kombucha", "horchata", "mosto", "granizado", "chupito",
+    "energy", "isotónic*", "isotonic*", "kombucha", "horchata", "mosto", "granizado", "chupito",
     // marcas
     "monster", "red bull", "redbull", "powerking", "power king", "reign", "rockstar", "burn",
     "fanta", "coca-cola", "cocacola", "pepsi", "sprite", "aquarius", "nestea", "trina",
     "seven up", "7up", "gatorade", "powerade", "nesquik", "aquabona", "font vella", "bezoya",
 )
 
-// Palabras que se comparan como TOKEN completo (evita falsos positivos por subcadena).
-private val DRINK_TOKENS = setOf("té", "te", "tea", "cola", "kas", "ron", "cava", "sprite", "agua")
+// Palabras cortas de bebida. Antes se comparaban aparte como "token"; ahora TODAS las palabras se
+// comparan como palabra entera (TextMatch), así que conviven con las demás.
+private val DRINK_TOKENS = listOf("té", "te", "tea", "cola", "kas", "ron", "cava", "sprite", "agua")
 
 // Volumen típico de bebida: "33cl", "500 ml", "1 l", "1,5 litros"…
 private val DRINK_VOLUME = Regex("""\d+[.,]?\d*\s?(?:cl|ml|litros?|lt|l)\b""")
 
+// Palabras que dicen explícitamente "esto se bebe": mandan sobre el veto de abajo
+// ("batido de chocolate", "yogur bebible" son bebidas aunque lleven chocolate o yogur).
+private val STRONG_DRINK_WORDS = listOf(
+    "bebida", "bebible", "batido", "zumo", "jugo", "refresco", "smoothie", "infusión", "infusion",
+    "kombucha", "horchata", "gaseosa", "tónica", "tonica", "granizado", "cerveza", "sidra", "licor",
+)
+
+// Alimentos sólidos cuyo nombre suele llevar una palabra de bebida: "chocolate con LECHE",
+// "arroz con LECHE", "LECHE condensada", "barrita ENERGY", "galletas de CAFÉ". Sin este veto se
+// mostraban en ml y con icono de vaso.
+private val SOLID_FOOD_WORDS = listOf(
+    "chocolate", "tableta", "bombón", "bombon", "turrón", "turron", "arroz con leche",
+    "condensada", "en polvo", "galleta", "tarta", "flan", "natillas", "queso", "yogur",
+    "bizcocho", "barrita", "crema de", "helado", "pastas", "caramelo*", "gominola*", "gomis",
+    "chicle*", "regaliz", "piruleta*",
+    // suplementos con sabor de refresco ("GlucoOptimize ... Cola") o en "lata"
+    "capsula*", "comprimido*", "softgel*", "tabs", "gummies", "vial*",
+    // vienen en ml, pero no son bebidas
+    "aceite", "mayonesa", "salsa", "ketchup", "tomate frito", "sorbete", "vinagre",
+    // proteína en polvo con sabor de bebida ("Soy Protein Isolate Chai Tea Latte")
+    "isolate", "whey",
+)
+
+private val COFFEE_CAPSULE_WORDS = listOf(
+    "cafe", "espresso", "expreso", "cortado", "cappuccino", "capuchino", "latte", "macchiato",
+    "dolce gusto", "tassimo", "nespresso",
+)
+
 /** true si el nombre parece una bebida (unidad ml vs g). */
+private val NOT_DRINK_PHRASES = listOf("en su jugo", "jugo cocido", "al jugo")
+
 fun isDrink(name: String): Boolean {
-    val n = name.lowercase()
-    if (DRINK_WORDS.any { it in n }) return true
-    val tokens = n.split(' ', ',', '.', '-', '(', ')', '/').filter { it.isNotBlank() }
-    if (tokens.any { it in DRINK_TOKENS }) return true
+    val n = TextMatch.normalize(name)
+    fun any(words: List<String>) = words.any { TextMatch.contains(n, it) }
+    // "Mejillones en su jugo": el jugo es el caldo de la conserva
+    if (any(NOT_DRINK_PHRASES)) return false
+    if (any(STRONG_DRINK_WORDS)) return true
+    // las cápsulas de café son café: el veto de "cápsulas" es para los suplementos
+    if (any(COFFEE_CAPSULE_WORDS) && TextMatch.contains(n, "capsula*")) return true
+    if (any(SOLID_FOOD_WORDS)) return false
+    if (any(DRINK_WORDS) || any(DRINK_TOKENS)) return true
     return DRINK_VOLUME.containsMatchIn(n)
 }
 
-// Categorías de Open Food Facts que indican bebida (más fiable que el nombre).
-private val DRINK_CATEGORY_WORDS = listOf(
-    "beverage", "drink", "soda", "water", "juice", "coffee", "tea", "milk", "smoothie",
-    "cocktail", "lemonade", "energy", "kombucha", "cider", "beer", "wine", "spirit", "bebida",
+// Palabras de una categoría de Open Food Facts que indican bebida. Se comparan como PALABRA
+// ENTERA del identificador ("en:semi-skimmed-milks" -> semi, skimmed, milks), no como trozo de
+// texto: con subcadenas, "tea" casaba con "steaks", "water" con "watermelons", "wine" con
+// "wine-vinegars" y, sobre todo, "milk" con "fermented-milk-products", la categoría que OFF pone a
+// casi todos los QUESOS y YOGURES — que la app mostraba como bebidas, en ml y con icono de vaso.
+private val DRINK_CATEGORY_TOKENS = setOf(
+    "beverage", "beverages", "drink", "drinks", "soda", "sodas", "water", "waters", "juice",
+    "juices", "coffee", "coffees", "tea", "teas", "milk", "milks", "smoothie", "smoothies",
+    "cocktail", "cocktails", "lemonade", "lemonades", "kombucha", "kombuchas", "cider", "ciders",
+    "beer", "beers", "wine", "wines", "spirit", "spirits", "liqueur", "liqueurs", "bebida", "bebidas",
 )
 
-/** true si alguna categoría de OFF indica que es una bebida.
- *  Ignora los paraguas genéricos "...foods-and-beverages" (contienen "food"): si no, un tomate
- *  frito ("plant-based-foods-and-beverages") se detectaría como bebida por error. */
+// Si aparece cualquiera de estas, la categoría es de un alimento aunque lleve una palabra de
+// bebida: "milk-chocolates", "coffee-beans", "cider-vinegars", "energy-bars", "milk-powders"...
+private val FOOD_CATEGORY_TOKENS = setOf(
+    "food", "foods", "fermented", "cheese", "cheeses", "yogurt", "yogurts", "yoghurt", "yoghurts",
+    "dessert", "desserts", "cream", "creams", "creamers", "butter", "butters", "powder", "powders",
+    "powdered", "bar", "bars", "bean", "beans", "vinegar", "vinegars", "chocolate", "chocolates",
+    "ice", "sauce", "sauces", "biscuits", "cakes", "candies", "confectioneries", "jams",
+)
+
+/** true si alguna categoría de OFF indica que es una bebida. */
 fun isDrinkByCategory(categories: List<String>): Boolean =
     categories.any { c ->
-        val l = c.lowercase()
-        if ("food" in l) return@any false
-        DRINK_CATEGORY_WORDS.any { it in l }
+        val tokens = c.lowercase().substringAfter(':').split('-')
+        tokens.none { it in FOOD_CATEGORY_TOKENS } && tokens.any { it in DRINK_CATEGORY_TOKENS }
     }
 
 /** Insignia de comida: círculo de color LISO con el icono MDI en blanco (como Kivy meal_badge). */

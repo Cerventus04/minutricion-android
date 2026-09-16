@@ -1,0 +1,162 @@
+[
+ [
+  "quesos",
+  "tabler__cheese",
+  [
+   2,
+   3,
+   4
+  ],
+  "Tabler cheese · agujeros dorados"
+ ],
+ [
+  "quesos",
+  "tabler__cheese",
+  [
+   1
+  ],
+  "Tabler cheese · cara superior dorada"
+ ],
+ [
+  "tuberculos",
+  "lucide__carrot",
+  [
+   1
+  ],
+  "Lucide carrot · hojas doradas"
+ ],
+ [
+  "tuberculos",
+  "tabler__carrot",
+  [
+   3,
+   4
+  ],
+  "Tabler carrot · hojas doradas"
+ ],
+ [
+  "tuberculos",
+  "mio__patata",
+  [
+   1,
+   2,
+   3
+  ],
+  "Patata (composición mía) · ojos dorados"
+ ],
+ [
+  "verduras",
+  "lucide__broccoli",
+  [
+   0,
+   2
+  ],
+  "Lucide broccoli · detalles dorados"
+ ],
+ [
+  "verduras",
+  "lucide__leafy-green",
+  [
+   1
+  ],
+  "Lucide leafy-green · tallo dorado"
+ ],
+ [
+  "verduras",
+  "lucide__salad",
+  [
+   2,
+   4
+  ],
+  "Lucide salad · hojas doradas"
+ ],
+ [
+  "pavo",
+  "lucide__bird",
+  [
+   5,
+   2
+  ],
+  "Lucide bird · ala y pico dorados"
+ ],
+ [
+  "pavo",
+  "lucide__feather",
+  [
+   2
+  ],
+  "Lucide feather · barba dorada"
+ ],
+ [
+  "pavo",
+  "mio__pavo",
+  [
+   0,
+   1
+  ],
+  "Pavo (composición mía) · cola dorada"
+ ],
+ [
+  "pasta",
+  "tabler__bowl-chopsticks",
+  [
+   1,
+   2
+  ],
+  "Tabler bowl-chopsticks · palillos dorados"
+ ],
+ [
+  "pasta",
+  "lucide__cooking-pot",
+  [
+   3
+  ],
+  "Lucide cooking-pot · asa dorada"
+ ],
+ [
+  "pasta",
+  "mio__pasta",
+  [
+   1,
+   2,
+   3
+  ],
+  "Pasta (composición mía) · fideos dorados"
+ ],
+ [
+  "pasta",
+  "mio__farfalle",
+  [
+   2,
+   3
+  ],
+  "Farfalle (composición mía) · pliegues dorados"
+ ],
+ [
+  "lata",
+  "lucide__can-soda",
+  [
+   3,
+   4
+  ],
+  "Lucide can-soda · bandas doradas"
+ ],
+ [
+  "lata",
+  "lucide__can-soda",
+  [
+   1,
+   2
+  ],
+  "Lucide can-soda · bordes dorados"
+ ],
+ [
+  "lata",
+  "lucide__can",
+  [
+   2,
+   3
+  ],
+  "Lucide can · detalles dorados"
+ ]
+]

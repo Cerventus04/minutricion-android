@@ -65,6 +65,8 @@ fun AlimentosScreen(onClose: () -> Unit) {
     var creating by remember { mutableStateOf(false) }
     var deleting by remember { mutableStateOf<Food?>(null) }
     var detail by remember { mutableStateOf<Food?>(null) }
+    // edición cuyo nombre nuevo ya es de otro alimento: se pide confirmación antes de fusionarlos
+    var pendingMerge by remember { mutableStateOf<Pair<Food, Food>?>(null) }   // (original, editado)
     val meals = remember { Db.getMeals() }
     val today = remember { LocalDate.now() }
 
@@ -141,8 +143,37 @@ fun AlimentosScreen(onClose: () -> Unit) {
     editing?.let { food ->
         FoodEditDialog(
             initial = food,
-            onSave = { f -> Db.upsertFood(f); refresh++; editing = null },
+            onSave = { f ->
+                val clash = f.name != food.name && Db.foodByName(f.name) != null
+                if (clash) {
+                    pendingMerge = food to f
+                } else {
+                    Db.saveEditedFood(food.name, f)
+                }
+                refresh++; editing = null
+            },
             onDismiss = { editing = null },
+        )
+    }
+    pendingMerge?.let { (orig, edited) ->
+        AlertDialog(
+            onDismissRequest = { pendingMerge = null },
+            containerColor = Pal.Card2,
+            title = { Text("Ya existe «${edited.name}»", color = Pal.Text,
+                fontWeight = FontWeight.Bold, fontSize = 16.sp) },
+            text = {
+                Text("Si le pones ese nombre, «${orig.name}» y «${edited.name}» se juntarán en un " +
+                    "solo alimento, y todo lo registrado con cualquiera de los dos quedará con el " +
+                    "nombre nuevo. No se puede deshacer.", color = Pal.Sub, fontSize = 13.sp)
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    Db.saveEditedFood(orig.name, edited); refresh++; pendingMerge = null
+                }) { Text("Fusionar", color = Pal.Yellow, fontWeight = FontWeight.Bold) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingMerge = null }) { Text("Cancelar", color = Pal.Sub) }
+            },
         )
     }
     deleting?.let { food ->

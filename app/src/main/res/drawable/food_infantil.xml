@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de infantil.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 13.988 10.412 L 13.988 8.511 C 13.988 8.158 14.081 7.811 14.258 7.505 C 14.434 7.2 14.688 6.946 14.994 6.769 C 15.3 6.593 15.647 6.5 16 6.5 C 16.353 6.5 16.7 6.593 17.006 6.769 C 17.312 6.946 17.566 7.2 17.742 7.505 C 17.919 7.811 18.012 8.158 18.012 8.511 L 18.012 10.412"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 12.088 10.412 L 19.912 10.412 C 20.01 10.412 20.106 10.437 20.191 10.486 C 20.276 10.535 20.347 10.606 20.396 10.691 C 20.445 10.776 20.471 10.872 20.471 10.97 L 20.471 12.647 C 20.471 12.745 20.445 12.841 20.396 12.926 C 20.347 13.011 20.276 13.082 20.191 13.131 C 20.106 13.18 20.01 13.206 19.912 13.206 L 12.088 13.206 C 11.99 13.206 11.894 13.18 11.809 13.131 C 11.724 13.082 11.653 13.011 11.604 12.926 C 11.555 12.841 11.529 12.745 11.529 12.647 L 11.529 10.97 C 11.529 10.872 11.555 10.776 11.604 10.691 C 11.653 10.606 11.724 10.535 11.809 10.486 C 11.894 10.437 11.99 10.412 12.088 10.412 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 12.647 13.206 L 19.353 13.206 L 20.247 15.106 C 20.393 15.441 20.471 15.776 20.471 16.112 L 20.471 23.265 C 20.471 23.657 20.367 24.043 20.171 24.383 C 19.975 24.723 19.693 25.005 19.353 25.201 C 19.013 25.397 18.628 25.5 18.235 25.5 L 13.765 25.5 C 13.372 25.5 12.987 25.397 12.647 25.201 C 12.307 25.005 12.025 24.723 11.829 24.383 C 11.633 24.043 11.529 23.657 11.529 23.265 L 11.529 16.112 C 11.529 15.776 11.607 15.441 11.753 15.106 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 14.1 17.677 L 16.559 17.677"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 14.1 21.03 L 16.559 21.03"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

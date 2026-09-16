@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de cereales.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 6.5 17 L 25.5 17 C 25.5 22.2 21.2 26 16 26 C 10.8 26 6.5 22.2 6.5 17 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 22.4 8.6 L 18.8 14.2"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 25.3 7.2 C 25.3 7.533 25.212 7.861 25.045 8.15 C 24.879 8.439 24.639 8.679 24.35 8.845 C 24.061 9.012 23.733 9.1 23.4 9.1 C 23.067 9.1 22.739 9.012 22.45 8.845 C 22.161 8.679 21.921 8.439 21.755 8.15 C 21.588 7.861 21.5 7.533 21.5 7.2 C 21.5 6.867 21.588 6.539 21.755 6.25 C 21.921 5.961 22.161 5.721 22.45 5.555 C 22.739 5.388 23.067 5.3 23.4 5.3 C 23.733 5.3 24.061 5.388 24.35 5.555 C 24.639 5.721 24.879 5.961 25.045 6.25 C 25.212 6.539 25.3 6.867 25.3 7.2 Z"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

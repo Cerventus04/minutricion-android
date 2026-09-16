@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de res.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 20.656 17.613 C 21.435 17.028 22.065 16.266 22.493 15.39 C 22.922 14.515 23.137 13.55 23.121 12.575 C 23.105 11.6 22.858 10.643 22.402 9.782 C 21.945 8.921 21.291 8.18 20.493 7.62 C 19.695 7.06 18.775 6.697 17.81 6.561 C 16.845 6.424 15.861 6.518 14.939 6.835 C 14.017 7.151 13.183 7.682 12.505 8.383 C 11.828 9.084 11.325 9.935 11.04 10.867 C 9.995 13.841 10.299 14.573 8.018 16.644 C 7.656 16.941 7.372 17.323 7.193 17.756 C 7.013 18.189 6.943 18.66 6.989 19.126 C 7.034 19.593 7.194 20.041 7.454 20.431 C 7.715 20.821 8.067 21.141 8.48 21.362 C 8.893 21.583 9.355 21.699 9.824 21.699 C 13.624 21.699 17.805 19.989 20.656 17.613"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 22.651 10.297 L 24.318 13.623 C 24.769 14.482 25.011 15.435 25.023 16.405 C 25.036 17.376 24.819 18.335 24.39 19.206 C 23.962 20.076 23.333 20.833 22.556 21.414 C 19.706 23.79 15.525 25.5 11.724 25.5 C 11.373 25.5 11.024 25.434 10.697 25.307 C 10.369 25.18 10.068 24.993 9.808 24.757 C 9.548 24.52 9.335 24.237 9.178 23.923 L 7.353 20.274"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 19.326 12.672 C 19.326 13.089 19.216 13.499 19.007 13.86 C 18.799 14.221 18.499 14.521 18.138 14.73 C 17.777 14.938 17.367 15.048 16.95 15.048 C 16.533 15.048 16.124 14.938 15.762 14.73 C 15.401 14.521 15.101 14.221 14.893 13.86 C 14.684 13.499 14.575 13.089 14.575 12.672 C 14.575 12.255 14.684 11.846 14.893 11.485 C 15.101 11.124 15.401 10.824 15.762 10.615 C 16.124 10.407 16.533 10.297 16.95 10.297 C 17.367 10.297 17.777 10.407 18.138 10.615 C 18.499 10.824 18.799 11.124 19.007 11.485 C 19.216 11.846 19.326 12.255 19.326 12.672 Z"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

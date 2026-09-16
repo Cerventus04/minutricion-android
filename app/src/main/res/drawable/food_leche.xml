@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de leche.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 12.2 6.5 L 19.8 6.5"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 13.15 6.5 L 13.15 9.15 C 13.15 9.523 13.095 9.894 12.987 10.251 C 12.879 10.608 12.719 10.947 12.512 11.258 L 11.888 12.192 C 11.681 12.503 11.521 12.842 11.413 13.2 C 11.305 13.557 11.25 13.928 11.25 14.301 L 11.25 23.6 C 11.25 23.933 11.338 24.261 11.505 24.55 C 11.671 24.839 11.911 25.079 12.2 25.245 C 12.489 25.412 12.817 25.5 13.15 25.5 L 18.85 25.5 C 19.183 25.5 19.511 25.412 19.8 25.245 C 20.089 25.079 20.329 24.839 20.495 24.55 C 20.662 24.261 20.75 23.933 20.75 23.6 L 20.75 14.3 C 20.75 13.927 20.695 13.556 20.587 13.199 C 20.479 12.842 20.319 12.503 20.112 12.192 L 19.488 11.258 C 19.281 10.947 19.121 10.608 19.013 10.25 C 18.905 9.893 18.85 9.522 18.85 9.149 L 18.85 6.5"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 11.25 18.85 C 12.002 18.535 12.81 18.373 13.625 18.373 C 14.44 18.373 15.248 18.535 16 18.85 C 16.752 19.165 17.56 19.327 18.375 19.327 C 19.19 19.327 19.998 19.165 20.75 18.85"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

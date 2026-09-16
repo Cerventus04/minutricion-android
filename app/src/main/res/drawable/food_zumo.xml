@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de zumo.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 7.25 12.5 L 18.25 12.5 L 16.95 23.7 C 16.917 24.028 16.804 24.343 16.62 24.616 C 16.436 24.89 16.187 25.113 15.896 25.268 C 15.604 25.422 15.28 25.502 14.95 25.5 L 10.55 25.5 C 10.22 25.502 9.896 25.422 9.604 25.268 C 9.313 25.113 9.064 24.89 8.88 24.616 C 8.696 24.343 8.583 24.028 8.55 23.7 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 7.85 17.5 L 17.65 17.5"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 13.25 12.5 L 15.75 6.5 L 18.25 6.5"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 16.35 12.5 C 16.35 11.763 16.544 11.038 16.913 10.4 C 17.281 9.762 17.812 9.231 18.45 8.863 C 19.088 8.494 19.813 8.3 20.55 8.3 C 21.287 8.3 22.012 8.494 22.65 8.863 C 23.288 9.231 23.819 9.762 24.187 10.4 C 24.556 11.038 24.75 11.763 24.75 12.5 Z"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 20.55 12.5 L 20.55 9.1"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

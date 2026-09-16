@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de verduras.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 14.1 16.95 C 13.65 16.95 13.207 16.843 12.806 16.639 C 12.406 16.435 12.059 16.139 11.795 15.775 C 11.531 15.411 11.356 14.99 11.286 14.546 C 11.215 14.102 11.251 13.647 11.39 13.22 C 11.529 12.792 11.767 12.403 12.085 12.085"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 19.426 18.094 C 16.101 19.519 13.822 22.372 10.972 25.222 C 10.883 25.31 10.779 25.38 10.664 25.428 C 10.548 25.475 10.425 25.5 10.3 25.5 C 8.4 25.5 6.5 23.6 6.5 21.7 C 6.5 21.575 6.525 21.452 6.572 21.336 C 6.62 21.221 6.69 21.117 6.778 21.028 C 8.594 19.213 10.41 17.629 11.858 15.859"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 20.344 18.6 C 19.867 18.418 19.431 18.141 19.063 17.787 C 18.695 17.432 18.403 17.007 18.203 16.537 C 18.003 16.067 17.9 15.561 17.9 15.05"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 11.383 14.962 C 10.776 14.827 10.212 14.546 9.739 14.143 C 9.266 13.74 8.9 13.228 8.671 12.65 C 8.442 12.072 8.359 11.447 8.428 10.83 C 8.497 10.212 8.716 9.621 9.066 9.108 C 9.417 8.595 9.888 8.176 10.438 7.887 C 10.988 7.598 11.6 7.449 12.221 7.452 C 12.843 7.454 13.454 7.609 14.001 7.903 C 14.417 7.392 14.958 6.997 15.572 6.758 C 16.187 6.52 16.852 6.444 17.504 6.541 C 18.156 6.637 18.772 6.901 19.291 7.307 C 19.81 7.712 20.215 8.247 20.465 8.856 C 20.706 8.65 20.994 8.507 21.304 8.441 C 21.614 8.375 21.936 8.387 22.24 8.477 C 22.544 8.567 22.82 8.732 23.044 8.956 C 23.268 9.18 23.433 9.456 23.523 9.76 C 23.613 10.064 23.625 10.386 23.559 10.696 C 23.493 11.006 23.35 11.294 23.144 11.535 C 23.754 11.785 24.288 12.19 24.694 12.709 C 25.1 13.228 25.364 13.844 25.46 14.496 C 25.556 15.149 25.48 15.814 25.241 16.429 C 25.002 17.043 24.607 17.584 24.096 18 C 24.41 18.582 24.566 19.237 24.549 19.898 C 24.532 20.559 24.343 21.205 24 21.771 C 23.657 22.337 23.172 22.803 22.593 23.124 C 22.015 23.445 21.362 23.609 20.701 23.601 C 20.039 23.592 19.391 23.411 18.821 23.075 C 18.251 22.74 17.779 22.261 17.451 21.686 C 17.122 21.112 16.95 20.462 16.95 19.8"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

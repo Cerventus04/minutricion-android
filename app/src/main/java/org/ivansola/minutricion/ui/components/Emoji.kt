@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -174,7 +175,7 @@ private val FOOD_EMOJI = linkedMapOf(
     "cruasán" to "🥐", "croissant" to "🥐", "baguette" to "🥖", "barra de pan" to "🥖", "bagel" to "🥯",
     "tostada" to "🍞", "biscote" to "🍞", "pan" to "🍞", "arroz" to "🍚", "quinoa" to "🍚",
     "cuscús" to "🍚", "couscous" to "🍚", "bulgur" to "🍚", "mijo" to "🍚",
-    "espagueti" to "🍝", "tallarín" to "🍝", "macarr" to "🍝", "raviol" to "🍝", "tortellini" to "🍝",
+    "espagueti" to "🍝", "tallarín" to "🍝", "macarr*" to "🍝", "raviol*" to "🍝", "tortellini" to "🍝",
     "lasaña" to "🍝", "canelón" to "🍝", "ñoqui" to "🍝", "gnocchi" to "🍝", "pasta" to "🍝",
     "avena" to "🥣", "muesli" to "🥣", "cereal" to "🥣", "harina" to "🌾", "trigo" to "🌾", "salvado" to "🌾",
     "gofre" to "🧇", "waffle" to "🧇", "tortita" to "🥞", "crep" to "🥞", "pancake" to "🥞",
@@ -216,22 +217,22 @@ private val DRINK_EMOJI = linkedMapOf(
     "café" to "☕", "latte" to "☕", "cortado" to "☕", "capuchino" to "☕", "cappuccino" to "☕",
     "té" to "🍵", "infusión" to "🍵", "cerveza" to "🍺", "vino" to "🍷", "agua" to "💧",
     "zumo" to "🧃", "batido" to "🥤", "leche" to "🥛", "yogur" to "🥛",
-    "monster" to "🥤", "red bull" to "🥤", "redbull" to "🥤", "energét" to "🥤", "energet" to "🥤",
+    "monster" to "🥤", "red bull" to "🥤", "redbull" to "🥤", "energét*" to "🥤", "energet*" to "🥤",
     "fanta" to "🥤", "coca" to "🥤", "cola" to "🥤", "pepsi" to "🥤", "sprite" to "🥤",
     "aquarius" to "🥤", "nestea" to "🥤", "refresco" to "🥤", "gaseosa" to "🥤", "tónica" to "🥤",
 )
 
-private fun match(name: String, table: Map<String, String>): String? {
-    val n = name.lowercase()
-    for ((k, v) in table) if (k in n) return v
-    return null
-}
+private val tableAsList = java.util.IdentityHashMap<Map<String, String>, List<Pair<String, String>>>()
+
+// Por PALABRA, no por subcadena (ver TextMatch): antes "sal" casaba con "salami" y "coco" con "cocoa".
+private fun match(name: String, table: Map<String, String>): String? =
+    TextMatch.firstMatch(name, synchronized(tableAsList) { tableAsList.getOrPut(table) { table.toList() } })
 
 /** Emoji del alimento (mismo mapeo que Kivy food_emoji). Si hay categoría elegida, manda ella. */
 fun foodEmoji(name: String, drink: Boolean = isDrink(name), category: String? = null): String {
     org.ivansola.minutricion.data.FoodCategories.emojiOf(category)?.let { return it }
-    val n = name.lowercase()
-    if ("tortita" in n && ("arroz" in n || "maíz" in n || "maiz" in n)) return "🍘"
+    val n = TextMatch.normalize(name)
+    if (TextMatch.contains(n, "tortita") && (TextMatch.contains(n, "arroz") || TextMatch.contains(n, "maiz"))) return "🍘"
     if (drink) return match(name, DRINK_EMOJI) ?: "🥤"
     return match(name, FOOD_EMOJI) ?: "🍽️"
 }
@@ -243,18 +244,21 @@ fun mealEmoji(meal: String): String = match(meal, MEAL_EMOJI) ?: "🍽️"
 @Composable
 fun FoodEmoji(name: String, size: Dp = 22.dp, modifier: Modifier = Modifier,
               drink: Boolean = isDrink(name), category: String? = null) {
-    if (category == "Suplementos") {
-        Box(modifier.size(size), contentAlignment = Alignment.Center) {
-            Image(
-                painter = androidx.compose.ui.res.painterResource(R.drawable.ic_supplement),
-                contentDescription = null,
-                modifier = Modifier.size(size),
-            )
-        }
-        return
+    // Icono del pack de línea (no un emoji: el nombre del componente se conserva para no tocar a
+    // todos los que lo usan). El dibujo del pack ocupa ~19 de sus 32 unidades y un emoji llena casi
+    // toda su caja, así que se pinta a PACK_SCALE para que ocupe lo mismo; `requiredSize` deja que
+    // el margen transparente se salga de la caja sin alterar la maquetación.
+    val res = remember(name, drink, category) { FoodIcons.resFor(name, drink, category) }
+    Box(modifier.size(size), contentAlignment = Alignment.Center) {
+        Image(
+            painter = androidx.compose.ui.res.painterResource(res),
+            contentDescription = null,
+            modifier = Modifier.requiredSize(size * PACK_SCALE),
+        )
     }
-    EmojiIcon(foodEmoji(name, drink, category), size, modifier)
 }
+
+private const val PACK_SCALE = 1.35f
 
 /** Separa "Nombre (Marca)" en (nombre, marca); si no hay marca devuelve (nombre, ""). */
 fun splitName(name: String): Pair<String, String> {

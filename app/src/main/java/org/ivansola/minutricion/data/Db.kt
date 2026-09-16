@@ -328,6 +328,71 @@ object Db {
 
     fun deleteFood(id: Long) = db.execSQL("DELETE FROM foods WHERE id=?", arrayOf(id))
 
+    /**
+     * Guarda los cambios de un alimento que se ha editado, RENOMBRÁNDOLO si su nombre cambió.
+     *
+     * No basta con `upsertFood`: su clave es el nombre, así que con un nombre nuevo creaba una
+     * ficha aparte y dejaba la antigua (y el diario seguía apuntando al nombre viejo). Eso es lo
+     * que dejaba, por ejemplo, "ñordos" y "Gnocchi" como dos entradas del mismo producto.
+     *
+     * Todo lo que referencia un alimento POR NOMBRE se arrastra al nuevo, en una transacción:
+     *  - la propia ficha;
+     *  - los registros del diario, incluidos los de componente de un surtido ("X — Componente");
+     *  - favoritos y la última cantidad usada.
+     *
+     * Si el nombre nuevo YA es de otro alimento, los dos se FUSIONAN en esa ficha (se conservan sus
+     * códigos de barras sumados): es justo lo que hace falta para juntar un duplicado.
+     */
+    fun saveEditedFood(oldName: String, food: Food) {
+        val newName = food.name
+        if (oldName == newName) { upsertFood(food); return }
+        db.beginTransaction()
+        try {
+            val old = foodByName(oldName)
+            val target = foodByName(newName)
+            if (target == null) {
+                db.execSQL("UPDATE foods SET name=? WHERE name=?", arrayOf(newName, oldName))
+            } else {
+                // fusión: la ficha destino recibe los códigos de la antigua, y la antigua se borra
+                old?.let { o ->
+                    // se relee la ficha en cada código: attachBarcode une con la copia que recibe,
+                    // y con una copia fija cada código borraría el añadido justo antes
+                    (listOfNotNull(o.barcode) + o.barcodes).forEach { code ->
+                        foodByName(newName)?.let { attachBarcode(it, code) }
+                    }
+                    if (o.userCreated) {
+                        db.execSQL("UPDATE foods SET user_created=1 WHERE id=?", arrayOf(target.id))
+                    }
+                }
+                db.execSQL("DELETE FROM foods WHERE name=?", arrayOf(oldName))
+            }
+            upsertFood(food)   // aplica el resto de campos editados sobre la ficha ya renombrada
+
+            db.execSQL("UPDATE entries SET name=? WHERE name=?", arrayOf(newName, oldName))
+            // registros de componente: "Viejo — Componente" -> "Nuevo — Componente". Se compara
+            // por prefijo con substr y no con LIKE, porque un nombre puede contener % o _.
+            val oldPrefix = "$oldName — "
+            val oldLen = oldPrefix.codePointCount(0, oldPrefix.length)   // substr cuenta caracteres
+            db.execSQL(
+                "UPDATE entries SET name = ? || substr(name, ?) WHERE substr(name, 1, ?) = ?",
+                arrayOf<Any>("$newName — ", oldLen + 1, oldLen, oldPrefix),
+            )
+
+            val favs = getFavorites()
+            if (oldName in favs) {
+                val updated = (favs - oldName).let { if (newName in it) it else it + newName }
+                setSetting("favorites", org.json.JSONArray(updated).toString())
+            }
+            getSetting("lastqty:$oldName")?.let { qty ->
+                if (getSetting("lastqty:$newName") == null) setSetting("lastqty:$newName", qty)
+                db.execSQL("DELETE FROM settings WHERE key=?", arrayOf("lastqty:$oldName"))
+            }
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
     // ---- favoritos (lista de nombres, guardada como ajuste JSON) ----------
 
     fun getFavorites(): List<String> {

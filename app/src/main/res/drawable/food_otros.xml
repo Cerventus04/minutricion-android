@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de otros.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 25.5 16 C 25.5 17.667 25.061 19.306 24.227 20.75 C 23.394 22.194 22.194 23.394 20.75 24.227 C 19.306 25.061 17.667 25.5 16 25.5 C 14.333 25.5 12.694 25.061 11.25 24.227 C 9.806 23.394 8.606 22.194 7.773 20.75 C 6.939 19.306 6.5 17.667 6.5 16 C 6.5 14.333 6.939 12.694 7.773 11.25 C 8.606 9.806 9.806 8.606 11.25 7.773 C 12.694 6.939 14.333 6.5 16 6.5 C 17.667 6.5 19.306 6.939 20.75 7.773 C 22.194 8.606 23.394 9.806 24.227 11.25 C 25.061 12.694 25.5 14.333 25.5 16 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 20.5 16 C 20.5 16.79 20.292 17.566 19.897 18.25 C 19.502 18.934 18.934 19.502 18.25 19.897 C 17.566 20.292 16.79 20.5 16 20.5 C 15.21 20.5 14.434 20.292 13.75 19.897 C 13.066 19.502 12.498 18.934 12.103 18.25 C 11.708 17.566 11.5 16.79 11.5 16 C 11.5 15.21 11.708 14.434 12.103 13.75 C 12.498 13.066 13.066 12.498 13.75 12.103 C 14.434 11.708 15.21 11.5 16 11.5 C 16.79 11.5 17.566 11.708 18.25 12.103 C 18.934 12.498 19.502 13.066 19.897 13.75 C 20.292 14.434 20.5 15.21 20.5 16 Z"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

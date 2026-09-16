@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de cafe.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 9.5 11.5 L 20.5 11.5 L 20.5 18 C 20.5 18.965 20.246 19.914 19.763 20.75 C 19.28 21.586 18.586 22.28 17.75 22.763 C 16.914 23.246 15.965 23.5 15 23.5 C 14.035 23.5 13.086 23.246 12.25 22.763 C 11.414 22.28 10.72 21.586 10.237 20.75 C 9.754 19.914 9.5 18.965 9.5 18 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 20.5 12.5 L 23 12.5 C 23.527 12.5 24.044 12.639 24.5 12.902 C 24.956 13.165 25.335 13.544 25.598 14 C 25.861 14.456 26 14.973 26 15.5 C 26 16.027 25.861 16.544 25.598 17 C 25.335 17.456 24.956 17.835 24.5 18.098 C 24.044 18.361 23.527 18.5 23 18.5 L 20.5 18.5"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 15 8.6 C 16.2 7.4 16.2 6.2 15 5"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

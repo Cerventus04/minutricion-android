@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por tools/pack_to_vectordrawable.py a partir de huevo.svg. No editar a mano. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="32" android:viewportHeight="32">
+    <path android:pathData="M 23 17.5 C 23 19.08 22.677 20.632 22.062 22 C 21.448 23.368 20.564 24.504 19.5 25.294 C 18.436 26.084 17.229 26.5 16 26.5 C 14.771 26.5 13.564 26.084 12.5 25.294 C 11.436 24.504 10.552 23.368 9.938 22 C 9.323 20.632 9 19.08 9 17.5 C 9 15.92 9.323 14.368 9.938 13 C 10.552 11.632 11.436 10.496 12.5 9.706 C 13.564 8.916 14.771 8.5 16 8.5 C 17.229 8.5 18.436 8.916 19.5 9.706 C 20.564 10.496 21.448 11.632 22.062 13 C 22.677 14.368 23 15.92 23 17.5 Z"
+        android:strokeColor="#F2F0EC" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+    <path android:pathData="M 18.6 18.5 C 18.6 18.956 18.48 19.405 18.252 19.8 C 18.023 20.195 17.695 20.523 17.3 20.752 C 16.905 20.98 16.456 21.1 16 21.1 C 15.544 21.1 15.095 20.98 14.7 20.752 C 14.305 20.523 13.977 20.195 13.748 19.8 C 13.52 19.405 13.4 18.956 13.4 18.5 C 13.4 18.044 13.52 17.595 13.748 17.2 C 13.977 16.805 14.305 16.477 14.7 16.248 C 15.095 16.02 15.544 15.9 16 15.9 C 16.456 15.9 16.905 16.02 17.3 16.248 C 17.695 16.477 18.023 16.805 18.252 17.2 C 18.48 17.595 18.6 18.044 18.6 18.5 Z"
+        android:strokeColor="#C9A227" android:strokeWidth="1.35"
+        android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:fillColor="#00000000" />
+</vector>

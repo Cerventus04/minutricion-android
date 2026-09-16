@@ -15,12 +15,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.DeleteOutline
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -34,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.ivansola.minutricion.data.Db
@@ -106,7 +103,7 @@ fun WeightDetailScreen(onClose: () -> Unit) {
     }
 
     if (showDialog) {
-        WeightInputDialog(curW,
+        WeightSheet(curW, curDay,
             onSave = { kg -> Db.setWeight(today.toString(), kg); refresh++; showDialog = false },
             onDismiss = { showDialog = false })
     }
@@ -171,29 +168,3 @@ private fun PillButtonW(text: String, onClick: () -> Unit) {
     }
 }
 
-@Composable
-fun WeightInputDialog(current: Double?, onSave: (Double) -> Unit, onDismiss: () -> Unit) {
-    var kg by remember { mutableStateOf(current?.let { fmtKg(it) } ?: "") }
-    val v = kg.replace(",", ".").toDoubleOrNull() ?: 0.0
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        containerColor = Pal.Card2,
-        title = { Text("Actualizar peso", color = Pal.Text, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
-        text = {
-            OutlinedTextField(
-                value = kg,
-                onValueChange = { s -> kg = s.filter { it.isDigit() || it == '.' || it == ',' } },
-                label = { Text("Peso (kg)", color = Pal.Sub) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                colors = fieldColors(),
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = { if (v > 0) onSave(v) }) {
-                Text("Guardar", color = Pal.Yellow, fontWeight = FontWeight.Bold)
-            }
-        },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar", color = Pal.Sub) } },
-    )
-}

@@ -21,8 +21,8 @@ android {
         applicationId = "org.ivansola.minutricion"
         minSdk = 24
         targetSdk = 34
-        versionCode = 88
-        versionName = "10.8"
+        versionCode = 91
+        versionName = "10.11"
         buildConfigField("String", "GEMINI_API_KEY",
             "\"${localProps.getProperty("gemini.api.key", "")}\"")
         // Clave de respaldo (otro proyecto de Google = otra cuota diaria); opcional.

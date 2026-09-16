@@ -2,7 +2,6 @@ package org.ivansola.minutricion.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,11 +25,8 @@ import androidx.compose.material.icons.rounded.LocalFireDepartment
 import androidx.compose.material.icons.rounded.MonitorWeight
 import androidx.compose.material.icons.rounded.Restaurant
 import androidx.compose.material.icons.rounded.TrackChanges
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
@@ -43,7 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
@@ -153,8 +148,9 @@ fun ProgresoScreen(contentPadding: PaddingValues) {
     )
 
     if (showWeight) {
-        WeightDialog(
+        WeightSheet(
             current = state.curWeight,
+            lastDay = remember(refresh) { Db.latestWeight()?.first },
             onSave = { kg -> Db.setWeight(today.toString(), kg); refresh++; showWeight = false },
             onDismiss = { showWeight = false },
         )
@@ -168,33 +164,6 @@ fun ProgresoScreen(contentPadding: PaddingValues) {
     if (showWeightDetail) {
         WeightDetailScreen(onClose = { showWeightDetail = false; refresh++ })
     }
-}
-
-@Composable
-private fun WeightDialog(current: Double?, onSave: (Double) -> Unit, onDismiss: () -> Unit) {
-    var kg by remember { mutableStateOf(current?.let { fmtKg(it) } ?: "") }
-    val v = kg.replace(",", ".").toDoubleOrNull() ?: 0.0
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        containerColor = Pal.Card2,
-        title = { Text("Actualizar peso", color = Pal.Text, fontWeight = FontWeight.Bold, fontSize = 16.sp) },
-        text = {
-            OutlinedTextField(
-                value = kg,
-                onValueChange = { s -> kg = s.filter { it.isDigit() || it == '.' || it == ',' } },
-                label = { Text("Peso (kg)", color = Pal.Sub) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                colors = fieldColors(),
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = { if (v > 0) onSave(v) }) {
-                Text("Guardar", color = Pal.Yellow, fontWeight = FontWeight.Bold)
-            }
-        },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancelar", color = Pal.Sub) } },
-    )
 }
 
 @Composable

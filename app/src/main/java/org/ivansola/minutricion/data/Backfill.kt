@@ -33,7 +33,7 @@ object Backfill {
             // Los creados por el usuario no están en OFF: se marcan sin consultar.
             if (f.userCreated) { Db.setFoodBackfilled(f.name); continue }
 
-            val prod = fetch(f, country)
+            val (prod, exactName) = fetch(f, country) ?: (null to false)
             if (prod != null) {
                 val enriched = f.copy(
                     serving = f.serving ?: prod.servingG,
@@ -43,28 +43,38 @@ object Backfill {
                     categories = f.categories.ifEmpty { prod.categories },
                 )
                 Db.upsertFood(enriched, userCreated = f.userCreated)
+                // Si se ha encontrado por nombre y marca EXACTOS, es ese producto: se guarda su
+                // código. Sin él, un escaneo posterior no lo reconoce y, si OFF le ha cambiado el
+                // nombre entretanto, crea un duplicado (pasó con "Gnocchi" -> "ñordos").
+                if (exactName && f.barcode.isNullOrBlank() && prod.code.isNotBlank()) {
+                    Db.attachBarcode(f, prod.code)
+                }
             }
             Db.setFoodBackfilled(f.name)
             Thread.sleep(350)   // amable con la API pública de OFF
         }
     }
 
-    /** Busca el producto en OFF por código de barras o, si no, por nombre (coincidencia estricta). */
-    private fun fetch(f: Food, country: String): OffProduct? {
+    /**
+     * Busca el producto en OFF por código de barras o, si no, por nombre (coincidencia estricta).
+     * El segundo valor dice si el nombre CON marca coincide exactamente (entonces su código es fiable).
+     */
+    private fun fetch(f: Food, country: String): Pair<OffProduct, Boolean>? {
         if (!f.barcode.isNullOrBlank()) {
-            Off.byBarcode(f.barcode)?.let { return it }
+            Off.byBarcode(f.barcode)?.let { return it to false }
         }
         val query = f.name.substringBefore(" (").trim()
         if (query.length < 3) return null
         val results = Off.search(query, country, pageSize = 10)
         val target = norm(f.name)
         val targetShort = norm(query)
-        val match = results.firstOrNull { norm(it.label) == target || norm(it.name) == targetShort }
-            ?: return null
+        // "Gnocchi" a secas casa con los de cualquier marca: solo nombre+marca identifica el producto
+        val exact = results.firstOrNull { norm(it.label) == target }
+        val match = exact ?: results.firstOrNull { norm(it.name) == targetShort } ?: return null
         // El endpoint de búsqueda no trae ingredientes fiables: re-consulta el producto completo
         // por su código para obtener ingredientes/alérgenos.
-        if (match.code.isNotBlank()) Off.byBarcode(match.code)?.let { return it }
-        return match
+        if (match.code.isNotBlank()) Off.byBarcode(match.code)?.let { return it to (exact != null) }
+        return match to (exact != null)
     }
 
     private fun norm(s: String?): String {

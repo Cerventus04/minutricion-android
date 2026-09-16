@@ -27,11 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -47,6 +49,10 @@ import org.ivansola.minutricion.ui.components.BtnDarkTop
 import org.ivansola.minutricion.ui.components.BtnDarkBottom
 import org.ivansola.minutricion.ui.theme.Pal
 import kotlin.math.roundToInt
+import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private fun d(x: Double?): String =
     x?.let { if (it % 1.0 == 0.0) it.toInt().toString() else it.toString() } ?: ""
@@ -57,6 +63,8 @@ private fun parse(s: String): Double? = s.replace(",", ".").toDoubleOrNull()
 fun AjustesScreen(contentPadding: PaddingValues, onSaved: () -> Unit = {}) {
     var showAlimentos by remember { mutableStateOf(false) }
     var showComidas by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val p0 = remember { Db.getProfile() }
     var mode by remember { mutableStateOf(if (p0?.mode == "manual") "Manual" else "Automático") }
     var manualKcal by remember { mutableStateOf(d(p0?.manualKcal)) }
@@ -129,6 +137,13 @@ fun AjustesScreen(contentPadding: PaddingValues, onSaved: () -> Unit = {}) {
         Text("Gestión", color = Pal.Sub, fontWeight = FontWeight.Bold, fontSize = 15.sp)
         LinkRow("Mis alimentos") { showAlimentos = true }
         LinkRow("Comidas") { showComidas = true }
+        LinkRow("Exportar base de datos") {
+            scope.launch {
+                val result = withContext(Dispatchers.IO) { runCatching { Db.exportCopy(context) } }
+                val msg = result.fold({ "Copia guardada en $it" }, { "No se pudo exportar: ${it.message}" })
+                Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     if (showAlimentos) {

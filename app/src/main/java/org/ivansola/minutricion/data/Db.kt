@@ -1,10 +1,17 @@
 package org.ivansola.minutricion.data
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import org.json.JSONObject
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 /**
  * Capa de datos sobre SQLite (equivalente a db.py). Reutiliza el MISMO fichero
@@ -27,6 +34,36 @@ object Db {
             target.path, null, SQLiteDatabase.OPEN_READWRITE or SQLiteDatabase.CREATE_IF_NECESSARY
         )
         ensureSchema()
+    }
+
+    /**
+     * Copia la base entera a Descargas/MiNutricion (copia de seguridad, o para revisarla en el PC).
+     * Antes vuelca al fichero principal lo que siga en el diario de escrituras (WAL), para que la
+     * copia esté completa. Devuelve dónde ha quedado.
+     */
+    fun exportCopy(context: Context): String {
+        db.rawQuery("PRAGMA wal_checkpoint(FULL)", null).use { it.moveToFirst() }
+        val src = File(db.path)
+        val name = "MiNutricion_" + SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date()) + ".db"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val values = ContentValues().apply {
+                put(MediaStore.Downloads.DISPLAY_NAME, name)
+                put(MediaStore.Downloads.MIME_TYPE, "application/octet-stream")
+                put(MediaStore.Downloads.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/MiNutricion")
+            }
+            val resolver = context.contentResolver
+            val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                ?: error("no se pudo crear el archivo en Descargas")
+            resolver.openOutputStream(uri).use { out ->
+                requireNotNull(out) { "no se pudo escribir en Descargas" }
+                src.inputStream().use { it.copyTo(out) }
+            }
+            return "Descargas/MiNutricion/$name"
+        }
+        // Android 9 o anterior: Descargas pide permiso; la carpeta propia de la app no
+        val out = File(context.getExternalFilesDir(null) ?: error("sin almacenamiento externo"), name)
+        src.copyTo(out, overwrite = true)
+        return out.path
     }
 
     private fun copyAsset(context: Context, name: String, target: File) {
@@ -268,14 +305,25 @@ object Db {
             .replace(Regex("[^a-z0-9 ]"), " ")
             .split(' ').filter { it.length >= 4 && it !in PACKAGING }.toSet()
 
+    /** Ingredientes comparables: minúsculas, sin tildes ni signos, espacios simples. */
+    private fun recipe(ingredients: String): String =
+        java.text.Normalizer.normalize(ingredients.lowercase(), java.text.Normalizer.Form.NFD)
+            .replace(Regex("\\p{Mn}+"), "")
+            .replace(Regex("[^a-z0-9]+"), " ")
+            .trim()
+
     private fun close(a: Double, b: Double, absTol: Double = 0.5, rel: Double = 0.10): Boolean =
         Math.abs(a - b) <= maxOf(absTol, rel * maxOf(Math.abs(a), Math.abs(b)))
 
     /**
      * CANDIDATOS ya guardados que podrían ser el mismo alimento aunque el NOMBRE no sea idéntico
-     * (p. ej. se escanea un producto que el scraper guardó con otra redacción y sin EAN). Exige >=2
-     * palabras distintivas en común, solape (Jaccard) >= 0.6 y macros equivalentes; sin energía
-     * (0 kcal) no se arriesga. Van ordenados de más a menos parecido.
+     * (p. ej. se escanea un producto que el scraper guardó con otra redacción y sin EAN). Exige
+     * macros equivalentes y, además, una de dos:
+     *  - >=2 palabras distintivas en común con solape (Jaccard) >= 0.6, o
+     *  - la MISMA lista de ingredientes. Esto cubre los productos a los que Open Food Facts les ha
+     *    cambiado el nombre: el EAN 8015057003760 (gnocchi Hacendado) pasó a llamarse "ñordos" en
+     *    OFF y, al escanearlo, se guardó como alimento nuevo junto al "Gnocchi" que ya existía.
+     * Sin energía (0 kcal) no se arriesga. Van ordenados de más a menos parecido.
      *
      * OJO: son solo PISTAS, las tiene que elegir el USUARIO antes de asociarles un código. Ni el
      * nombre ni los macros pueden distinguir dos formatos del mismo producto ("Vodka 35 cl" vs
@@ -284,10 +332,13 @@ object Db {
      */
     fun findSimilarFoods(
         name: String, kcal: Double, protein: Double, carbs: Double, fat: Double, limit: Int = 4,
+        ingredients: String = "",
     ): List<Food> {
         if (kcal <= 0) return emptyList()
         val mine = tokens(name)
-        if (mine.size < 2) return emptyList()
+        // una lista corta ("Leche", "Azúcar") no identifica un producto
+        val myRecipe = recipe(ingredients).takeIf { it.length >= 30 }
+        if (mine.size < 2 && myRecipe == null) return emptyList()
         val scored = ArrayList<Pair<Double, Food>>()
         db.rawQuery("SELECT * FROM foods WHERE kcal BETWEEN ? AND ?",
             arrayOf((kcal * 0.9).toString(), (kcal * 1.1).toString())).use { c ->
@@ -297,9 +348,11 @@ object Db {
                 val common = mine intersect theirs
                 val union = mine union theirs
                 val jaccard = if (union.isEmpty()) 0.0 else common.size.toDouble() / union.size
-                if (common.size < 2 || jaccard < 0.6) continue
+                val sameRecipe = myRecipe != null && recipe(f.ingredients) == myRecipe
+                val sameName = mine.size >= 2 && common.size >= 2 && jaccard >= 0.6
+                if (!sameName && !sameRecipe) continue
                 if (!close(protein, f.protein) || !close(carbs, f.carbs) || !close(fat, f.fat)) continue
-                scored.add(jaccard to f)
+                scored.add((if (sameRecipe) maxOf(jaccard, 0.99) else jaccard) to f)
             }
         }
         return scored.sortedByDescending { it.first }.take(limit).map { it.second }

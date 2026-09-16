@@ -453,7 +453,8 @@ fun DiarioScreen(contentPadding: PaddingValues) {
             if (prod == null) { scanNotFound = code to meal; return@launch }
             val f = prod.toFood()
             val similar = if (suggest)
-                Db.findSimilarFoods(f.name, f.kcal, f.protein, f.carbs, f.fat) else emptyList()
+                Db.findSimilarFoods(f.name, f.kcal, f.protein, f.carbs, f.fat, ingredients = f.ingredients)
+            else emptyList()
             if (similar.isNotEmpty()) pickFoods = PickFoods(similar, code, meal, f)
             else pendingScan = f.copy(barcode = code) to meal
         }

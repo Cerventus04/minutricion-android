@@ -103,7 +103,8 @@ fun fechaLarga(d: LocalDate) = "${DIAS_C[d.dayOfWeek.value - 1]} ${d.dayOfMonth}
 fun diaCorto(d: LocalDate) = "${DIAS_C[d.dayOfWeek.value - 1]} ${d.dayOfMonth}"
 fun mesFull(month: Int) = MESES_FULL_C[month - 1]
 
-fun fmtKg(x: Double): String {
-    val r = (x * 10).let { Math.round(it) } / 10.0
-    return if (r % 1.0 == 0.0) r.toInt().toString() else r.toString()
-}
+/** Peso con hasta 2 decimales y sin ceros sobrantes: 67.85, 67.9, 68. Antes redondeaba a 1 decimal
+ *  y 67,85 se veía (y se volvía a guardar desde el diálogo) como 67,9. */
+fun fmtKg(x: Double): String =
+    java.math.BigDecimal.valueOf(x).setScale(2, java.math.RoundingMode.HALF_UP)
+        .stripTrailingZeros().toPlainString()
